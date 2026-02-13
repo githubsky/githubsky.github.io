@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #contextMenu {
+      display: none;
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      padding: 5px 0;
+      z-index: 1000;
+    }
+    #contextMenu div {
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+    #contextMenu div:hover {
+      background: #f0f0f0;
+    }
+
+    .test1 {
+      border-top: 1px solid black;
+    }
+    .test1:last-of-type {
+      border: 2px solid red;
+    }
+
+    .test1:last-child {
+      /* 样式规则 */
+      background-color: lightgreen;
+      border: 2px solid blue;
+    }
+    div.test1:last-of-type {
+      /* 样式规则 */
+      background-color: lightblue;
+      border: 2px dashed red;
+      color: red;
+    }
+    em:last-of-type {
+      color: lime;
+    }
+    li:last-of-type {
+      color: orange;
+    }
+    .li:last-child {
+      font-weight: bold;
+    }
+    .test1:last-of-type {
+      font-style: italic;
+    }
+
+    /* 方案1：精确匹配第四个.test1（实际最后一个） */
+.test1:last-of-type {
+  background-color: lightcoral !important;
+  border: 3px solid red !important;
+}
+
+/* 方案2：如果需要选中用户注释的"最后一个test1"（第三个） */
+.p > .test1:nth-child(3) {
+  background-color: lightblue !important;
+  border: 3px solid blue !important;
+}
+  </style>
+
+  <script type="text/javascript" id="www-widgetapi-script" src="./crawler0213.js" async=""></script>
+</head>
+<body>
+
+  <p>
+  <em>我没有颜色 :(</em><br />
+  <strong>我没有颜色 :(</strong><br />
+  <em>我有颜色 :D</em><br />
+  <strong>我也没有颜色 :(</strong><br />
+</p>
+
+<p>
+  <em>我没有颜色 :(</em><br />
+  <span><em>我有颜色！</em></span
+  ><br />
+  <strong>我没有颜色 :(</strong><br />
+  <em>我有颜色 :D</em><br />
+  <span>
+    <em>我在子元素里，但没有颜色！</em><br />
+    <span style="text-decoration:line-through;"> 我没有颜色 </span><br />
+    <em>我却有颜色！</em><br /> </span
+  ><br />
+  <strong>我也没有颜色 :(</strong>
+</p>
+
+
+<div class="p">
+  <div class='test1'>第一个test1</div>      <!-- 不会被选中 -->
+  <div class='test1'>第二个test1</div>      <!-- 不会被选中 -->
+  <div class='test1'>最后一个test1</div>    <!-- 匹配:last-of-type -->
+  <div class='test1'>第一个c2</div>
+  <div class='test2'>第二个c2</div>
+  <li class="li">列表项</li>
+  <li class="li">最后一个列表项</li>
+  <em>我有颜色！  <em>我也有颜色！</em></em>
+  <em>我没有颜色 :( </em>
+  <em>我有颜色！</em>
+</div>
+
+
+  <div id="targetArea" style="width: 300px; height: 200px; border: 1px dashed #999;">
+    右键点击此处
+  </div>
+
+  <div id="contextMenu">
+    <div onclick="alert('操作1')">操作1334</div>
+    <div onclick="alert('操作2')">操作2</div>
+  </div>
+
+  <script>
+    const target = document.getElementById('targetArea');
+    const menu = document.getElementById('contextMenu');
+
+    target.addEventListener('contextmenu', function(e) {
+      e.preventDefault(); // 阻止默认右键菜单
+      menu.style.display = 'block';
+      menu.style.left = e.pageX + 'px';
+      menu.style.top = e.pageY + 'px';
+    });
+
+    // 点击其他区域关闭菜单
+    document.addEventListener('click', function() {
+      menu.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
