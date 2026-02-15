@@ -131,7 +131,7 @@
             let urlDetail = node?.getAttribute?.('href');
             console.log(urlDetail);
             if (urlDetail) {
-              await sleep(duration);
+              await sleep(getDuration(duration));
               try {
                 const detail = await search2(urlDetail);
                 if (detail) results.push(detail);
@@ -197,6 +197,10 @@
     }
   
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const getDuration = (duration) => {
+      const rand = (Math.floor(Math.random() * 7) + 1) * 1000;
+      return rand + duration;
+    }
 
     async function main(duration = 3000) {
       await loadPapa()
@@ -215,7 +219,7 @@
         console.log(`${i + 1}/${emails.length} ${email}`)
         let result = caches[email]
         if (!result?.length) {
-          await sleep(duration);
+          await sleep(getDuration(duration));
           try {
             result = await search(email, duration)
             caches[email] = result
