@@ -110,8 +110,9 @@
       return pathify('/email/') + r
     }
   
-    async function search(email) {
-      const url = location.origin + getResultUrl(email)
+    async function search(email, duration) {
+      const url = location.origin + getResultUrl(email);
+      console.log(url)
       return fetch(url)
         .then(resp => resp.text())
         .then(html => {
@@ -130,6 +131,7 @@
             let urlDetail = node?.getAttribute?.('href');
             console.log(urlDetail);
             if (urlDetail) {
+              await sleep(duration);
               try {
                 const detail = await search2(urlDetail);
                 if (detail) results.push(detail);
@@ -196,7 +198,7 @@
   
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-    async function main(duration = 2000) {
+    async function main(duration = 3000) {
       await loadPapa()
   
       const csvText = await loadCSV()
@@ -213,14 +215,14 @@
         console.log(`${i + 1}/${emails.length} ${email}`)
         let result = caches[email]
         if (!result?.length) {
+          await sleep(duration);
           try {
-            result = await search(email)
+            result = await search(email, duration)
             caches[email] = result
             localStorage.setItem('caches-v2', JSON.stringify(caches))
           } catch (err) {
             console.error(err)
           }
-          await sleep(duration);
         }
   
         if (result?.length) {
