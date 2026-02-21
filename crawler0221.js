@@ -1201,7 +1201,7 @@
       if (addressLink) {
         // 使用innerText获取包含格式的完整地址文本
         const addressText = addressLink.innerText.trim();
-        const cleanedAddress = rawAddress
+        const cleanedAddress = addressText
           .replace(/\s+/g, ' ')     // 替换所有空白字符为单个空格
           .replace(/\s*<br>\s*/g, ' ')  // 处理HTML换行标签
           .trim()                   // 移除首尾空格
