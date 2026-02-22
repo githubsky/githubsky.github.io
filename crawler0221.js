@@ -1163,7 +1163,11 @@
       let birthdate = null;
       
       if (infoSpan) {
-        const text = infoSpan.textContent.trim();
+        let text = infoSpan.textContent.trim();
+        text = text.replace(/ +/g, ' ');
+        text = text.replace(/\n/g, '');
+
+        if (text.includes('Death Record')) return null;
         
         // 正则提取年龄（匹配"Age 数字"）
         const ageMatch = text.match(/Age\s+(\d+)/);
@@ -1227,6 +1231,9 @@
           let col = curBg.querySelector('.row.pl-md-1');
           if (!col) return results;
           let item = parseProfileInfo(col);
+          if (!item) {
+            return null;
+          }
           let nodes = document.querySelectorAll('.row.pl-md-1');
           for (let i = 0; i < nodes?.length; ++i) {
             let data = parseCurrentAddress(nodes[i]);
