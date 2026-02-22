@@ -1246,7 +1246,7 @@
       return rand + duration;
     }
 
-    async function main(duration = 3000) {
+    async function main(duration = 10000) {
       await loadPapa()
   
       const csvText = await loadCSV()
